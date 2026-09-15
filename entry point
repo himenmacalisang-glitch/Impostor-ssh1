@@ -3,6 +3,9 @@ set -e
 
 ulimit -n 65535 || true
 
+# Ipakita ang Banner
+cat /etc/banner.txt
+
 echo "[+] Generating SSH Host Keys..."
 ssh-keygen -A
 mkdir -p /run/sshd
@@ -11,9 +14,9 @@ echo "[+] Starting SSH Daemon..."
 /usr/sbin/sshd
 
 echo "[+] Starting BadVPN UDPGW — IMPOSTOR PATH..."
-UDPGW_PATH="/usr/local/impostor/bin/badvpn-udpgw"
+UDPGW_PATH="/usr/local/impostor/bin/udpgw"
 $UDPGW_PATH \
-  --listen-addr 127.0.0.1:7300 \
+  --listen-addr 0.0.0.0:7300 \
   --max-clients 1000 \
   --max-connections-for-client 40 \
   --loglevel warning &
@@ -76,7 +79,7 @@ echo "[+] Starting Watchdog..."
     sleep 10
     if ! kill -0 "$UDPGW_PID" 2>/dev/null; then
       echo "[watchdog] udpgw died, restarting..."
-      $UDPGW_PATH --listen-addr 127.0.0.1:7300 --max-clients 1000 \
+      $UDPGW_PATH --listen-addr 0.0.0.0:7300 --max-clients 1000 \
         --max-connections-for-client 40 --loglevel warning &
       UDPGW_PID=$!
     fi
