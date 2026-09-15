@@ -2,7 +2,8 @@ name: Build & Push to Docker Hub
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build-push:
@@ -26,4 +27,3 @@ jobs:
           context: .
           push: true
           tags: impostor2/impostor-ssh:latest
-          
