@@ -3,7 +3,7 @@ set -e
 
 ulimit -n 65535 || true
 
-# Ipakita ang Banner
+# Show Banner
 cat /etc/banner.txt
 
 echo "[+] Generating SSH Host Keys..."
